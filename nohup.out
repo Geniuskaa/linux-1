@@ -1,2 +1,0 @@
-Сигнал завершения получен! Выключаем сервер.
-accept tcp 127.0.0.1:1303: use of closed network connection
