@@ -13,9 +13,11 @@ func main() {
 	ctx, _ := signal.NotifyContext(context.Background(), os.Interrupt)
 
 	lstr, err := net.Listen("tcp", "localhost:1303")
+	defer func() {
+		lstr.Close()
+	}()
 	if err != nil {
 		fmt.Println(err)
-		lstr.Close()
 		return
 	}
 
@@ -24,7 +26,6 @@ func main() {
 			con, err := lstr.Accept()
 			if err != nil {
 				fmt.Println(err)
-				con.Close()
 				return
 			}
 
@@ -40,7 +41,6 @@ func main() {
 	}()
 
 	<-ctx.Done()
-	lstr.Close()
 	fmt.Println("Сигнал завершения получен! Выключаем сервер.")
 	return
 }
