@@ -3,14 +3,12 @@ package main
 import (
 	"fmt"
 	"net"
-	"strings"
 	"sync"
 	"time"
 )
 
 func main() {
 	ipArr := make([]string, 0, 4)
-	ipArr = append(ipArr, "localhost")
 
 	interfaces, err := net.Interfaces()
 	if err != nil {
@@ -24,10 +22,6 @@ func main() {
 			panic(err)
 		}
 
-		if !strings.Contains(interf.Name, "enp") {
-			continue
-		}
-
 		for i, add := range addrs {
 			if i > 0 {
 				break
@@ -39,6 +33,7 @@ func main() {
 		}
 	}
 
+	fmt.Println("I found ", len(ipArr))
 	wg := sync.WaitGroup{}
 
 	for _, val := range ipArr {
